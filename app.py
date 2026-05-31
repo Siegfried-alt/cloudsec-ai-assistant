@@ -4,16 +4,13 @@ import os
 from pathlib import Path
 
 import streamlit as st
-import openai
+from openai import OpenAI
 import chromadb
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from dotenv import load_dotenv
 
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if OPENAI_API_KEY:
-    openai.api_key = OPENAI_API_KEY
 
 st.title("Cloud Security AI Co-Worker")
 
@@ -60,7 +57,8 @@ else:
                     f"{context}\n\nQuestion: {query}\nAnswer:" 
                 )
 
-                response = openai.ChatCompletion.create(
+                client = OpenAI(api_key=OPENAI_API_KEY)
+                response = client.chat.completions.create(
                     model="gpt-4o-mini",
                     messages=[{"role": "user", "content": prompt}],
                     temperature=0,

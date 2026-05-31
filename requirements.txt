@@ -1,6 +1,6 @@
 streamlit
-openai
-python-dotenv
-chromadb
-sentence-transformers
-pypdf
+openai==2.38.0
+python-dotenv==1.2.2
+chromadb==1.5.9
+sentence-transformers==5.5.1
+pypdf==6.12.2
