@@ -1,39 +1,71 @@
 # cloudsec-ai-assistant
 
-AI-powered Cloud Security Engineer Assistant built to demonstrate practical cloud security automation, documentation ingestion, and retrieval-augmented generation (RAG) with modern Python tooling.
+AI-powered Cloud Security Engineer Assistant with searchable document ingestion, a Chroma vector knowledge base, and a Streamlit conversational interface.
 
-## What This Project Implements
+## Project Overview
 
-This repository captures the end-to-end work required to build a searchable, AI-enabled security assistant for cloud and compliance teams:
+This repository demonstrates a practical cloud security assistant architecture with two main components:
 
-- Built a document ingestion pipeline in `scripts/load_docs.py` that discovers PDFs in `docs/`, splits content into semantic chunks, creates embeddings, and stores them in a Chroma vector database under `vector_db/`.
-- Designed the project to support security and incident response knowledge by organizing content in folders such as `docs/`, `compliance/`, and `incident_response/`.
-- Included a core application entry point in `app.py` to serve as the foundation for the assistant interface and integration logic.
-- Added infrastructure and deployment artifacts such as `Dockerfile` and `requirements.txt` to support containerized execution and reproducible Python environments.
-- Preserved example security telemetry and tooling artifacts, including the `wazuh/` folder and `terraform/` support files, to demonstrate experience with cloud security operations and infrastructure-as-code.
+- `scripts/load_docs.py`: discovers PDF documents in `docs/`, extracts text, splits it into semantic chunks, generates embeddings, and stores them in a Chroma vector database under `vector_db/`.
+- `app.py`: provides a Streamlit UI that queries the Chroma knowledge base and generates answers through OpenAI chat completions.
 
-## Document Ingestion
+The project also holds security-related content and artifact folders such as `docs/`, `compliance/`, `incident_response/`, `terraform/`, and `wazuh/`.
 
-The script `scripts/load_docs.py` is the main automation used so far. It:
+## Installation
 
-1. loads PDF documents from the `docs/` directory,
-2. splits the text into smaller, searchable chunks,
-3. generates vector embeddings for semantic search,
-4. stores the vectors in `vector_db/` using Chroma.
+Create and activate a virtual environment, then install the required Python packages:
 
-### Usage
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Configuration
+
+Create a `.env` file and set your OpenAI API key:
+
+```bash
+cp .env.example .env
+```
+
+Then add the key to `.env`:
+
+```bash
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+## Usage
+
+1. Build the vector database from your PDF documents:
 
 ```bash
 source .venv/bin/activate
 python scripts/load_docs.py
 ```
 
-### Optional Arguments
+2. Start the Streamlit application:
 
 ```bash
-python scripts/load_docs.py --docs-dir docs --vector-db-dir vector_db
+source .venv/bin/activate
+streamlit run app.py
 ```
 
-## Next Steps
+3. Ask cloud security questions through the browser interface.
 
-This repository is positioned to grow into a full security engineering assistant by adding an interactive UI, additional cloud connector integrations, and further automation for incident investigation and compliance reporting.
+## Requirements
+
+This repository depends on the following Python packages:
+
+- `streamlit`
+- `openai`
+- `python-dotenv`
+- `chromadb`
+- `sentence-transformers`
+- `pypdf`
+
+## Notes
+
+- `scripts/load_docs.py` creates the searchable knowledge base from PDF documents.
+- `app.py` reads the Chroma collection and uses an OpenAI chat completion model to answer queries.
+- If the vector store is missing, the app will show a warning and prompt you to run the ingestion script.
