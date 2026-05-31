@@ -2,6 +2,10 @@
 
 AI-powered Cloud Security Engineer Assistant built to demonstrate practical cloud security automation, documentation ingestion, and retrieval-augmented generation (RAG) with modern Python tooling.
 
+## Dependency Manifest
+
+The `requirements.txt` file currently contains no pinned Python packages; it is empty at this time.
+
 ## What This Project Implements
 
 This repository captures the end-to-end work required to build a searchable, AI-enabled security assistant for cloud and compliance teams:
